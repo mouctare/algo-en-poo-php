@@ -8,6 +8,7 @@
      private int $numberPorte;
      private int $priceTTC;
      private $insElectric = false;
+     public static $voitures;
      const MINI = 3;
      const NORMAL = 5;
      const TVA = 20;
@@ -20,6 +21,7 @@
          $this->numberPorte = $numberPorte;
          $this->insElectric = false;
          $this->priceTTC = $priceHT + $priceHT * self::TVA/100;
+         self::$voitures[] = $this; // c'est à dire , l'objet que je suis entrain de créer
      }
      public function dispLayCar()
      {
@@ -80,8 +82,16 @@
  
          return $this;
      }
+
+     public static function afficherVoitureMarque($marque)
+     {
+         for ($i = 0; $i < count(self::$voitures); $i++) {
+             if (self::$voitures[$i]->getMarque() !== $marque) {
+                 printf(" Nous  ne trouvons pas " . $marque . " dans notre parc ");
+             }
+         }
+     }
  }
-    
 
 
 $v1 = new Voiture("Toyota", "Ryas", "noir", Voiture::MINI, 3000);
@@ -90,25 +100,11 @@ $v2 = new Voiture("Toyota", "Risau", "rouge", Voiture::MINI, 6000);
 
 $v3 = new Voiture("Troen", "Ryas", "jaune", Voiture::MINI, 2000 );
 
-$tab = [$v1, $v2, $v3];
+//$tab = [$v1, $v2, $v3];
 
-for($i = 0; $i < count($tab); $i++){
-    echo($tab[$i]->dispLayCar());
+for($i = 0; $i < count(Voiture::$voitures); $i++){
+    echo Voiture::$voitures[$i];
 
 }
 
-afficherVoitureMarque($tab, "ta");
-
-
-function afficherVoitureMarque($tab, $marque)
-{
-    for ($i = 0; $i < count($tab); $i++) {
-        if ($tab[$i]->getMarque() !== $marque) {
-            //  printf(" Nous  ne trouvons pas " . $marque . " dans notre parc " );
-        } else {
-            // print_r("************************** ");
-           // print_r("Voici les voitures de la marque ". $marque);
-           //  echo  $tab[$i]->dispLayCar();
-        }
-    }
-}  
+Voiture::afficherVoitureMarque("Yotota");
